@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Leaf, Mail, ExternalLink } from "lucide-react";
+import { Leaf, ExternalLink } from "lucide-react";
 import { siteConfig } from "@/lib/seo";
 
 const columns = [
@@ -62,12 +62,6 @@ export function Footer() {
           <p className="mt-4 max-w-sm text-sm leading-7 text-ink/75">
             吃得科学，活得健康。我们把营养科学、食物数据、实用工具与可靠资源整理在一起，帮助每一次饮食选择更有依据。
           </p>
-          <div className="mt-5 flex items-center gap-2 text-xs text-muted">
-            <Mail className="h-4 w-4" />
-            <a href="mailto:hello@nutri-life.example.com" className="hover:text-forest">
-              hello@nutri-life.example.com
-            </a>
-          </div>
         </div>
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           {columns.map((column) => (
