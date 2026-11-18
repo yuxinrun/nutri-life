@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 export const siteConfig = {
   name: "Nutri Life 营养生活",
   shortName: "Nutri Life",
-  origin: "https://yuxinrun.github.io",
-  url: "https://yuxinrun.github.io/nutri-life",
+  origin: "https://www.yuxin.run",
+  url: "https://www.yuxin.run/nutri-life",
   description:
     "从营养科学到一日三餐，系统了解食物、营养与身体的关系，让每一次饮食选择都更有依据。",
   slogan: "吃得明白，才能活得健康。",

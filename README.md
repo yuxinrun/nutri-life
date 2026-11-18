@@ -27,13 +27,14 @@ npm run typecheck    # TypeScript 检查
 
 ## GitHub Pages 部署
 
-线上地址：<https://yuxinrun.github.io/nutri-life/>
+线上地址：<https://www.yuxin.run/nutri-life/>
 
 - 站点使用 `output: "export"` 静态导出，构建产物在 `out/`。
 - GitHub Actions 工作流：`.github/workflows/deploy-pages.yml`，推送 `main` 或手动触发时自动构建并部署。
 - 项目站点使用 `/nutri-life` basePath；`next.config.mjs` 从 `NEXT_PUBLIC_BASE_PATH` 读取，`build:pages` 脚本已设置。
 - 首次部署需在仓库 **Settings → Pages → Build and deployment** 中将 Source 设为 **GitHub Actions**。
-- 若绑定自定义域名，需要去除 `NEXT_PUBLIC_BASE_PATH`、给 `public/` 添加 `CNAME`，并同步修改 `src/lib/seo.ts` 中的 `origin` 与 `url`。
+- 已绑定自定义域名 `www.yuxin.run`，站点仍是项目路径 `/nutri-life`，因此保留 basePath。
+- 若改为域名根路径部署，需要去除 `NEXT_PUBLIC_BASE_PATH`，并同步修改 `src/lib/seo.ts` 中的 `origin` 与 `url`。
 
 ## 内容规模
 
