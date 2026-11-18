@@ -1,0 +1,283 @@
+import type { ResearchItem } from "@/types";
+
+type ResearchInput = Omit<ResearchItem, "kind" | "sections" | "categoryName">;
+
+function buildResearch(input: ResearchInput): ResearchItem {
+  return {
+    ...input,
+    kind: "research",
+    sections: [
+      { id: "question", heading: "研究问题", paragraphs: [input.question] },
+      {
+        id: "design",
+        heading: "研究设计与对象",
+        paragraphs: [`设计：${input.design}。`, `研究对象：${input.population}。`],
+      },
+      { id: "findings", heading: "主要结果", bullets: input.findings },
+      { id: "limits", heading: "研究局限与解读边界", bullets: input.limitations },
+      {
+        id: "implication",
+        heading: "实际意义",
+        paragraphs: [input.implication],
+        callout: {
+          type: "caution",
+          text: `证据等级：${input.evidenceLevel}。单个研究不能替代系统综述与权威指南，也不构成疾病治疗方案。`,
+        },
+      },
+      {
+        id: "source",
+        heading: "原始资料与延伸阅读",
+        paragraphs: [`原始论文/报告：${input.paper.title}（${input.paper.publisher ?? "未标注"}）。`],
+      },
+    ],
+  };
+}
+
+export const researchItems: ResearchItem[] = [
+  buildResearch({
+    slug: "predimed", title: "PREDIMED：地中海饮食与心血管事件", subtitle: "随机对照试验如何改变我们对饮食脂肪的看法",
+    summary: "PREDIMED 在高心血管风险人群中比较地中海饮食加坚果或橄榄油与低脂饮食，主要终点为心血管事件。理解其设计、依从性与后续争议，比记住结论更重要。",
+    category: "随机对照试验", tags: ["地中海饮食", "心血管", "RCT"],
+    updatedAt: "2026-10-04", readingMinutes: 9, illustration: "evidence",
+    question: "在高心血管风险但尚未发生事件的人群中，补充特级初榨橄榄油或坚果的地中海饮食，是否比低脂饮食更能降低主要心血管事件风险？",
+    design: "多中心随机对照试验，按中心随机分组；主要终点为心肌梗死、脑卒中或心血管死亡的复合终点。试验原计划 6 年，因中期分析提示获益而提前终止（平均随访约 4.8 年）。",
+    population: "西班牙 7447 名具有较高心血管风险（如 2 型糖尿病或有 3 项以上危险因素）的成年人，年龄 55–80 岁。",
+    findings: [
+      "与低脂饮食组相比，两个地中海饮食组的主要复合终点发生率较低（论文报告的相对风险下降约 30%）。",
+      "两组地中海饮食在能量摄入和体重方面没有明显差异，提示获益不能简单用减重解释。",
+      "橄榄油与坚果组的依从性、基线饮食和事件率存在差异，后续对随机化程序的重新分析引发讨论。",
+    ],
+    limitations: [
+      "部分中心的随机化程序不够严格，后续重新分析使效应量估计存在不确定性。",
+      "饮食干预难以盲法，参与者的行为改变可能影响结果。",
+      "研究人群为西班牙高心血管风险成年人，结果不能无条件外推到低风险人群或其他文化饮食背景。",
+      "不能把地中海饮食视为药物替代方案。",
+    ],
+    implication: "地中海饮食模式（大量蔬果、全谷物、豆类、坚果、橄榄油，适量鱼类，较少加工肉和甜食）值得作为心血管健康饮食的参考模式。重点是整体模式与长期坚持，而不是复制某一种食材。",
+    evidenceLevel: "强",
+    paper: {
+      title: "Primary Prevention of Cardiovascular Disease with a Mediterranean Diet Supplemented with Extra-Virgin Olive Oil or Nuts",
+      publisher: "New England Journal of Medicine (2013)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=Primary+Prevention+of+Cardiovascular+Disease+with+a+Mediterranean+Diet+PREDIMED",
+      note: "可通过 PubMed 检索题名核对作者、DOI 与勘误信息",
+    },
+    references: [
+      { title: "PubMed：PREDIMED 原始论文与后续重新分析", publisher: "NLM", url: "https://pubmed.ncbi.nlm.nih.gov/?term=PREDIMED" },
+      { title: "Harvard Nutrition Source – Mediterranean Diet", publisher: "Harvard University", url: "https://www.hsph.harvard.edu/nutritionsource/healthy-weight/diet-reviews/mediterranean-diet/" },
+    ],
+    related: [{ label: "地中海饮食模式", href: "/healthy-eating#patterns" }, { label: "心血管健康专题", href: "/nutrition-health/cardiovascular" }, { label: "随机对照试验", href: "/articles/rct-basics" }],
+  }),
+  buildResearch({
+    slug: "dash-trial", title: "DASH 试验：膳食模式与血压", subtitle: "把“少吃盐”变成可检验的饮食干预",
+    summary: "DASH 试验比较了富含水果、蔬菜、低脂奶制品并减少饱和脂肪的饮食模式与对照饮食对血压的影响，是饮食模式研究的经典案例。",
+    category: "随机对照试验", tags: ["血压", "DASH", "膳食模式"],
+    updatedAt: "2026-10-06", readingMinutes: 8, illustration: "evidence",
+    question: "一种强调水果、蔬菜、低脂乳制品、全谷物、豆类、鱼禽并限制饱和脂肪的饮食模式，能否降低血压？",
+    design: "随机交叉/平行组喂养试验，参与者在研究中心接受为期数周的定制饮食，血压作为主要结局。后续 DASH-Sodium 试验进一步比较不同钠水平。",
+    population: "美国成年人，包括高血压前期与轻度高血压患者（未服用降压药或经评估后纳入）。",
+    findings: [
+      "与典型美国饮食相比，DASH 饮食显著降低收缩压和舒张压。",
+      "DASH-Sodium 试验显示，在低钠摄入水平下血压下降更明显，提示饮食模式与钠摄入存在叠加效应。",
+      "效果在高血压人群中更明显，但血压正常者也出现一定程度的下降。",
+    ],
+    limitations: [
+      "喂养周期较短，长期依从性与心血管硬终点数据有限。",
+      "饮食由研究中心提供，真实环境中的执行难度更高。",
+      "受试者以美国成年人为主，外推需谨慎。",
+    ],
+    implication: "增加蔬果、低脂奶制品和全谷，减少饱和脂肪与钠，是有证据支持的血压管理饮食方向。已被诊断为高血压的人仍应遵医嘱用药，不可自行停药。",
+    evidenceLevel: "强",
+    paper: {
+      title: "A Clinical Trial of the Effects of Dietary Patterns on Blood Pressure",
+      publisher: "New England Journal of Medicine (1997)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=Appel+dietary+patterns+blood+pressure+DASH+1997",
+      note: "PubMed 可检索到原始论文及 DASH-Sodium 后续试验",
+    },
+    references: [
+      { title: "PubMed：DASH 与 DASH-Sodium 试验", publisher: "NLM", url: "https://pubmed.ncbi.nlm.nih.gov/?term=DASH-Sodium+trial" },
+      { title: "NIH – DASH Eating Plan", publisher: "NHLBI", url: "https://www.nhlbi.nih.gov/health-topics/dash-eating-plan" },
+    ],
+    related: [{ label: "钠与盐", href: "/articles/sodium-salt" }, { label: "心血管健康", href: "/nutrition-health/cardiovascular" }, { label: "均衡饮食", href: "/healthy-eating" }],
+  }),
+  buildResearch({
+    slug: "lyon-diet-heart", title: "Lyon Diet Heart Study：地中海饮食与心梗复发", subtitle: "小样本二级预防试验的影响力与争议",
+    summary: "该研究在已发生心肌梗死的患者中测试α-亚麻酸丰富的地中海式饮食对复发事件的影响，是理解次级预防与脂肪酸讨论的重要案例。",
+    category: "随机对照试验", tags: ["二级预防", "地中海饮食", "ALA"],
+    updatedAt: "2026-10-08", readingMinutes: 8, illustration: "evidence",
+    question: "在心肌梗死康复期患者中，富含α-亚麻酸的地中海式饮食能否降低心血管事件复发和死亡？",
+    design: "随机对照二级预防试验，干预组接受营养师指导的地中海式饮食并增加菜籽油来源的 ALA，对照组接受常规建议。",
+    population: "法国里昂地区 605 名近期发生心肌梗死的患者，随访约 4 年（后续延长随访）。",
+    findings: [
+      "论文报告干预组的主要心血管事件与心血管死亡低于对照组。",
+      "干预是整体饮食改变，不能把效果单独归因于某一种脂肪酸。",
+      "样本量较小、事件数有限，置信区间相对宽。",
+    ],
+    limitations: [
+      "样本量小，单中心特征明显，统计稳定性有限。",
+      "难以区分饮食整体、依从性医疗照护与的具体贡献。",
+      "二级预防人群（已患病）结论不能直接外推到普通人群一级预防。",
+    ],
+    implication: "对已有心血管疾病的患者，整体饮食模式与专业营养指导具有价值；任何饮食调整都应配合规范治疗，不能替代药物或手术。",
+    evidenceLevel: "中等",
+    paper: {
+      title: "Protective effect of a Mediterranean alpha-linolenic acid-rich diet in secondary prevention of coronary heart disease",
+      publisher: "The Lancet (1994) / Circulation (1999) 随访报告",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=Lyon+Diet+Heart+Study+de+Lorgeril",
+      note: "通过 PubMed 检索可核对 1994 与 1999 年两篇原始报告",
+    },
+    references: [{ title: "PubMed：Lyon Diet Heart Study", publisher: "NLM", url: "https://pubmed.ncbi.nlm.nih.gov/?term=Lyon+Diet+Heart+Study" }],
+    related: [{ label: "Omega-3 与 Omega-6", href: "/articles/omega3-omega6" }, { label: "脂肪", href: "/nutrients/fats" }, { label: "心血管健康", href: "/nutrition-health/cardiovascular" }],
+  }),
+  buildResearch({
+    slug: "whi-low-fat", title: "WHI 低脂饮食试验：当假设没有按预期实现", subtitle: "低脂不等于低碳水、也不等于更健康",
+    summary: "女性健康倡议的随机试验显示，在低脂饮食干预下，乳腺癌与结直肠癌主要终点未见预期下降。它提醒我们：饮食干预的质量与具体食物结构比“低脂”标签更重要。",
+    category: "随机对照试验", tags: ["低脂饮食", "癌症", "RCT"],
+    updatedAt: "2026-10-10", readingMinutes: 9, illustration: "evidence",
+    question: "在绝经后女性中，长期低脂饮食能否降低侵袭性乳腺癌和结直肠癌风险？",
+    design: "大规模随机对照试验，干预组接受低脂饮食行为干预，对照组接受常规健康建议；同时设有激素治疗等平行分支。",
+    population: "约 4.9 万名美国绝经后女性，随访多年。",
+    findings: [
+      "低脂饮食组与对照组相比，侵袭性乳腺癌和结直肠癌发生率没有显著差异。",
+      "干预组的脂肪供能比确实下降，但碳水摄入与精制谷物比例也发生变化。",
+      "观察性研究中低脂饮食与较低风险相关的结果，未能在这项随机试验中复现。",
+    ],
+    limitations: [
+      "依从性随时间下降，组间饮食差异小于设计目标。",
+      "干预强调降低脂肪，但没有同步强化全谷物、蔬菜和添加糖控制。",
+      "研究对象为美国绝经后女性，外推到其他人群需谨慎。",
+    ],
+    implication: "不要把“低脂”当作健康目标。更有意义的做法是关注食物质量与整体结构：多蔬果、全谷物、优质蛋白，少精制淀粉与添加糖。",
+    evidenceLevel: "强",
+    paper: {
+      title: "Low-fat dietary pattern and risk of invasive breast cancer / colorectal cancer: the Women's Health Initiative randomized controlled trial",
+      publisher: "JAMA (2006)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=WHI+low-fat+dietary+pattern+breast+cancer+Howard+2006",
+      note: "PubMed 可检索 JAMA 2006 年两篇主要结果论文",
+    },
+    references: [{ title: "PubMed：Women's Health Initiative 饮食试验", publisher: "NLM", url: "https://pubmed.ncbi.nlm.nih.gov/?term=Womens+Health+Initiative+low+fat+diet" }],
+    related: [{ label: "脂肪", href: "/nutrients/fats" }, { label: "相关性不等于因果", href: "/articles/correlation-causation" }, { label: "不同饮食模式", href: "/healthy-eating#patterns" }],
+  }),
+  buildResearch({
+    slug: "ssb-meta", title: "含糖饮料与体重增长：系统综述与 Meta 分析", subtitle: "汇总证据如何评估液体糖与体重的关系",
+    summary: "该系统综述与 Meta 分析汇总了儿童与成人随机试验和队列研究，评估含糖饮料摄入与体重变化的关系。重点理解不同研究设计的证据如何合并。",
+    category: "系统综述", tags: ["含糖饮料", "体重", "Meta 分析"],
+    updatedAt: "2026-10-12", readingMinutes: 8, illustration: "evidence",
+    question: "含糖饮料摄入是否导致儿童与成人体重增加？不同研究设计给出的结论是否一致？",
+    design: "系统检索并纳入随机对照试验与前瞻性队列研究，分别进行 Meta 分析，评估体重变化与肥胖发生风险。",
+    population: "儿童与成年人，涵盖不同基线体重与随访时长的研究人群。",
+    findings: [
+      "随机试验中，减少含糖饮料摄入与较小的体重增加相关。",
+      "前瞻性队列研究中，较高含糖饮料摄入与体重增加和肥胖风险升高相关。",
+      "效应量受研究时长、干预依从性和替代饮品类型影响。",
+    ],
+    limitations: [
+      "队列研究中的残余混杂难以完全排除（如整体饮食与生活方式差异）。",
+      "不同研究对含糖饮料定义与摄入评估方法不一致。",
+      "不能用汇总结果推断某个个体的体重变化。",
+    ],
+    implication: "减少含糖饮料是体重管理的低门槛、可操作策略；用水替代是最简单的场景之一。它仍需在整体能量平衡框架下理解。",
+    evidenceLevel: "强",
+    paper: {
+      title: "Sugar-sweetened beverages and weight gain in children and adults: a systematic review and meta-analysis",
+      publisher: "American Journal of Clinical Nutrition (2013)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=Malik+sugar-sweetened+beverages+weight+gain+meta-analysis+2013",
+      note: "PubMed 可检索摘要与作者信息",
+    },
+    references: [{ title: "WHO：糖摄入指南", publisher: "WHO", url: "https://www.who.int/publications/i/item/9789241549028" }],
+    related: [{ label: "添加糖", href: "/articles/added-sugar" }, { label: "含糖碳酸饮料", href: "/foods/soda" }, { label: "系统综述", href: "/articles/systematic-review" }],
+  }),
+  buildResearch({
+    slug: "salt-substitution", title: "SSaSS：低钠盐替代与心血管事件", subtitle: "把钠摄入研究推进到硬终点",
+    summary: "SSaSS 集群随机试验在高风险人群中比较普通盐与低钠盐（氯化钾部分替代氯化钠）对卒中、主要心血管事件和死亡的影响。",
+    category: "随机对照试验", tags: ["钠", "血压", "低钠盐"],
+    updatedAt: "2026-10-14", readingMinutes: 8, illustration: "evidence",
+    question: "在高心血管风险人群中，用含氯化钾的低钠盐替代普通食盐，能否降低卒中、主要心血管事件和全因死亡？",
+    design: "集群随机对照试验，以村庄为随机单位，随访约 5 年，主要终点为卒中。",
+    population: "中国 5 个省份约 2.1 万名有既往卒中或高血压控制不佳等高风险特征的成年人。",
+    findings: [
+      "低钠盐组的卒中、主要心血管事件和全因死亡发生率低于普通盐组。",
+      "研究证明在真实社区场景下，盐替代策略具有可操作性。",
+      "结果适用于研究中定义的高风险人群，且排除严重肾功能不全者。",
+    ],
+    limitations: [
+      "肾功能不全或高钾血症风险人群不适用，不能自行更换为低钠盐。",
+      "参与者知晓所用盐种类，难以盲法。",
+      "钾摄入增加带来的获益与潜在风险需要在个体层面评估。",
+    ],
+    implication: "对一般高血压高风险成年人，减少钠摄入是有强力证据的方向；但低钠盐并非人人适用，肾病患者与服用保钾类药物者应先咨询医生。",
+    evidenceLevel: "强",
+    paper: {
+      title: "Effect of salt substitution on cardiovascular events and death in high-risk populations (SSaSS)",
+      publisher: "New England Journal of Medicine (2021)",
+      url: "https://pubmed.ncbi.nlm.nih.gov/?term=SSaSS+salt+substitution+cardiovascular+events+death",
+      note: "PubMed 可检索原始论文及研究方案",
+    },
+    references: [{ title: "WHO：盐摄入 Fact Sheet", publisher: "WHO", url: "https://www.who.int/news-room/fact-sheets/detail/salt-reduction" }],
+    related: [{ label: "钠与盐", href: "/articles/sodium-salt" }, { label: "酱油", href: "/foods/soy-sauce" }, { label: "心血管健康", href: "/nutrition-health/cardiovascular" }],
+  }),
+  buildResearch({
+    slug: "wcrf-fibre", title: "膳食纤维与结直肠癌：WCRF 证据体系", subtitle: "从系统综述到人群建议的漫长路径",
+    summary: "世界癌症研究基金会的专家报告通过系统综述评估饮食、体重与癌症风险证据，并对膳食纤维与结直肠癌给出“可能降低风险”级别的判断。",
+    category: "权威报告", tags: ["膳食纤维", "癌症", "系统综述"],
+    updatedAt: "2026-10-16", readingMinutes: 8, illustration: "fiber",
+    question: "膳食纤维摄入与结直肠癌风险之间是否存在一致、可信的证据关联？",
+    design: "由国际专家小组对队列研究、病例对照研究与机制证据进行系统评价，按证据强度分级给出结论。",
+    population: "全球成年人研究人群的汇总证据，主要来自前瞻性队列研究。",
+    findings: [
+      "较高膳食纤维摄入与较低结直肠癌风险相关，报告将该证据评为“可能”（probable）级别。",
+      "全谷物食物也被列入与较低结直肠癌风险相关的食物类别。",
+      "加工肉类与红肉的证据评级方向相反，提示比较不同食物类别的重要性。",
+    ],
+    limitations: [
+      "主要证据来自观察性研究，不能完全排除残余混杂。",
+      "纤维来源多样，不同食物与加工方式的效应可能不同。",
+      "相关性结论不能转化为“吃某种食物就不会得癌症”的承诺。",
+    ],
+    implication: "把全谷物、豆类、蔬菜和水果作为日常饮食基础，是同时提升纤维和整体膳食质量的实际做法。癌症预防还涉及体重、运动、吸烟饮酒等多因素。",
+    evidenceLevel: "中等",
+    paper: {
+      title: "Diet, Nutrition, Physical Activity and Cancer: a Global Perspective（WCRF/AICR 专家报告）",
+      publisher: "World Cancer Research Fund / American Institute for Cancer Research",
+      url: "https://www.wcrf.org/dietandcancer/",
+      note: "报告在线阅读与证据矩阵可在 WCRF 官网获取",
+    },
+    references: [{ title: "WCRF 官网", publisher: "WCRF International", url: "https://www.wcrf.org/" }],
+    related: [{ label: "膳食纤维与肠道", href: "/articles/fiber-guide" }, { label: "肠道健康专题", href: "/nutrition-health/gut" }, { label: "全谷物", href: "/foods/rice-brown" }],
+  }),
+  buildResearch({
+    slug: "iom-vitamin-d", title: "IOM 维生素 D 与钙膳食参考摄入量", subtitle: "权威机构如何设定需要量与安全上限",
+    summary: "美国医学研究所（现 NAM）2011 年报告重新评估了维生素 D 与钙的 EAR/RDA 与 UL，是理解“推荐量怎么来的”的经典材料。",
+    category: "权威报告", tags: ["维生素D", "钙", "DRIs"],
+    updatedAt: "2026-10-18", readingMinutes: 9, illustration: "minerals",
+    question: "健康人群维生素 D 与钙的推荐摄入量和安全上限应如何设定？",
+    design: "由独立专家委员会系统评估骨骼健康终点（骨密度、骨折、佝偻病等）相关的证据，按膳食参考摄入量框架制定 EAR、RDA、AI 与 UL。",
+    population: "按年龄、性别与生理阶段分组的健康人群；不包含特定疾病患者的临床剂量方案。",
+    findings: [
+      "报告以骨骼健康为主要终点设定维生素 D 与钙的推荐摄入量。",
+      "设定 UL 的目的是识别过量摄入风险，而不是建议摄入到该水平。",
+      "报告强调血清 25(OH)D 与骨健康结局之间的关系仍存在不确定性。",
+    ],
+    limitations: [
+      "推荐量针对人群，不能直接等同于个体最佳血液指标目标。",
+      "不同机构（IOM、EFSA、Endocrine Society）对维生素 D 的建议存在差异。",
+      "补充剂研究与食物摄入、日照暴露难以完全区分。",
+    ],
+    implication: "优先通过食物、适量日照和必要时的补充达到推荐水平；不要自行大剂量补充维生素 D 或钙。孕妇、老年人和慢性病患者应个体化评估。",
+    evidenceLevel: "强",
+    paper: {
+      title: "Dietary Reference Intakes for Calcium and Vitamin D",
+      publisher: "Institute of Medicine / National Academies Press (2011)",
+      url: "https://www.nap.edu/catalog/13150/dietary-reference-intakes-for-vitamin-d-and-calcium",
+      note: "国家科学院出版社提供完整报告与摘要",
+    },
+    references: [
+      { title: "NIH ODS – Vitamin D Fact Sheet", publisher: "NIH", url: "https://ods.od.nih.gov/factsheets/VitaminD-HealthProfessional/" },
+      { title: "NIH ODS – Calcium Fact Sheet", publisher: "NIH", url: "https://ods.od.nih.gov/factsheets/Calcium-HealthProfessional/" },
+    ],
+    related: [{ label: "维生素", href: "/nutrients/vitamins" }, { label: "骨骼健康", href: "/nutrition-health/bone" }, { label: "推荐摄入量怎么来的", href: "/articles/dri-explained" }],
+  }),
+];
+
+export function getResearch(slug: string) {
+  return researchItems.find((r) => r.slug === slug);
+}

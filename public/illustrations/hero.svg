@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Nutri Life 健康餐盘插画">
+  <rect width="1200" height="630" fill="#F0EBDD"/>
+  <circle cx="620" cy="315" r="260" fill="#FAF9F5" stroke="#D9D4C5" stroke-width="3"/>
+  <circle cx="620" cy="315" r="230" fill="#F5F2E8"/>
+  <path d="M620 85 A230 230 0 0 1 850 315 L620 315Z" fill="#BFD0B3"/>
+  <path d="M620 85 A230 230 0 0 0 390 315 L620 315Z" fill="#E8B77E"/>
+  <path d="M620 315 L850 315 A230 230 0 0 1 620 545Z" fill="#9BAF8E"/>
+  <path d="M620 315 L390 315 A230 230 0 0 0 620 545Z" fill="#F7F3EA"/>
+  <g fill="#244C3A" font-family="sans-serif">
+    <text x="80" y="170" font-size="64" font-weight="700">Nutri Life</text>
+    <text x="80" y="220" font-size="26" fill="#6B7A70">营养生活 · 吃得科学，活得健康</text>
+    <text x="80" y="290" font-size="40" font-weight="700">吃得明白，才能活得健康。</text>
+    <text x="80" y="340" font-size="22" fill="#6B7A70">从营养科学到一日三餐，让每一次饮食选择都更有依据。</text>
+  </g>
+  <g fill="#244C3A" font-size="20" font-family="sans-serif">
+    <text x="880" y="210">蔬菜与水果</text>
+    <text x="330" y="210">全谷物</text>
+    <text x="880" y="510">优质蛋白</text>
+  </g>
+  <text x="80" y="560" font-size="18" fill="#6B7A70" font-family="sans-serif">nutri-life.example.com</text>
+</svg>
